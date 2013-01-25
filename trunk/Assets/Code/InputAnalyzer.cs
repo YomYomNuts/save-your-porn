@@ -49,9 +49,8 @@ public class InputAnalyzer : MonoBehaviour
 		keyboardMapFR.Add(new KeyboardKey(KeyCode.B, 			4, 3));
 		keyboardMapFR.Add(new KeyboardKey(KeyCode.N, 			5, 3));
 		keyboardMapFR.Add(new KeyboardKey(KeyCode.Comma,		6, 3));
-		keyboardMapFR.Add(new KeyboardKey(KeyCode.Semicolon, 	7, 3));
-		keyboardMapFR.Add(new KeyboardKey(KeyCode.Colon, 		8, 3));
-		keyboardMapFR.Add(new KeyboardKey(KeyCode.Exclaim, 	9, 3));
+		keyboardMapFR.Add(new KeyboardKey(KeyCode.Period,	 	7, 3));
+		keyboardMapFR.Add(new KeyboardKey(KeyCode.Slash, 		8, 3));
 	
 	}
 	
@@ -73,7 +72,7 @@ public class InputAnalyzer : MonoBehaviour
 		if (nbKeysPressed > 0)
 			averagePos /= nbKeysPressed;
 		
-		Vector3 newPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+		Vector3 newPos = Vector3.zero;
 		newPos.x = averagePos.x;
 		newPos.y = -averagePos.y;
 		
