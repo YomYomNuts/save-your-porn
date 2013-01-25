@@ -6,6 +6,9 @@ public class InputAnalyzer
 	private ArrayList m_keyboardMapFR;
 	private Vector2 m_averageInputPos;
 	private int m_nbKeysPressed;
+	private float m_dispersionFactor; /* 1 : no dispersion, 0 : much dispersion */
+	
+	private static float MAX_DISPERSION_DIST = 50;
 	
 	private static InputAnalyzer m_instance;
 	
@@ -28,6 +31,11 @@ public class InputAnalyzer
 	public int GetNbKeysPressed()
 	{
 		return m_nbKeysPressed;
+	}
+	
+	public float GetDispersion()
+	{
+		return m_dispersionFactor;
 	}
 
 	// Use this for initialization
@@ -84,6 +92,7 @@ public class InputAnalyzer
 	{
 		m_averageInputPos = Vector2.zero;
 		m_nbKeysPressed = 0;
+		Vector2 min = new Vector2(-1,-1), max = new Vector2(-1,-1);
 		/* update inputs */
 		foreach(KeyboardKey key in m_keyboardMapFR)
 		{
@@ -91,12 +100,40 @@ public class InputAnalyzer
 			if (key.State)
 			{
 				++m_nbKeysPressed;
-				m_averageInputPos += key.Position;
+				Vector2 pos = key.Position;
+				m_averageInputPos += pos;
+				if (min.x < 0)
+				{
+					min.x = pos.x;
+					min.y = pos.y;
+					max.x = pos.x;
+					max.y = pos.y;
+				}
+				else
+				{
+					/* get min and max pos for dispersion */
+					if (pos.x < min.x)
+						min.x = pos.x;
+					else if (pos.x > max.x)
+						max.x = pos.x;
+					if (pos.y < min.y)
+						min.y = pos.y;
+					else if (pos.y > max.y)
+						max.y = pos.y;
+				}
 			}
 		}
 		if (m_nbKeysPressed > 0)
+		{
 			m_averageInputPos /= m_nbKeysPressed;
+			m_dispersionFactor = (MAX_DISPERSION_DIST - (max - min).sqrMagnitude) / MAX_DISPERSION_DIST;
+			if (m_dispersionFactor < 0)
+				m_dispersionFactor = 0;
+		}
 		else
+		{
 			m_averageInputPos = new Vector2(-10000, -10000);
+			m_dispersionFactor = 0;
+		}
 	}
 }
