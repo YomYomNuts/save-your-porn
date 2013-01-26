@@ -8,6 +8,9 @@ public class StaticMassageObjective : Objective
 	public Vector2 m_PositionToReach;
 	public float 	m_ValueToReach;
 	public float	m_Period; // in seconds
+	public MaterialFader m_MatFader;
+	public float	m_LossFactor;
+	public float	m_DistanceFactor;
 	
 	private	float	m_CurrentValue;		
 	private bool 	m_Recording;
@@ -17,6 +20,7 @@ public class StaticMassageObjective : Objective
 	private float	m_CurrentTimer;
 	private bool	m_TimerStarted;
 	private float	m_CurrentSynchroFactor; /* 1 : total Sync, 0 : no Sync */
+	
 
 	// Use this for initialization
 	void Start ()
@@ -36,6 +40,10 @@ public class StaticMassageObjective : Objective
 		m_CurrentValue = 0;
 		m_CurrentTimer = 0;
 		m_TimerStarted = false;
+		if (m_MatFader != null)
+		{
+			m_MatFader.m_FadeType = MaterialFader.E_FadeType.E_FADE_IN_OUT;
+		}
 	}
 	
 	void UpdateTimer()
@@ -57,6 +65,11 @@ public class StaticMassageObjective : Objective
 			return;
 		
 		UpdateTimer();
+		
+		m_CurrentValue -= m_LossFactor;
+		if (m_CurrentValue < 0)
+			m_CurrentValue =0;
+			
 		InputAnalyzer inputAn = InputAnalyzer.GetInstance();
 		int nbKeys = inputAn.GetNbKeysPressed();
 		Vector2 pos = inputAn.GetInputPos();
@@ -124,11 +137,24 @@ public class StaticMassageObjective : Objective
 		m_Recording = false;
 		
 		/* compute score for current massage and add to score */
-		float scoreToAdd = m_CurrentNbKeys * m_CurrentNbKeys * m_CurrentDispersion * m_CurrentSynchroFactor / (1 + (m_PositionToReach - m_CurrentPos).sqrMagnitude);
+		float scoreToAdd = m_CurrentNbKeys * m_CurrentNbKeys * m_CurrentDispersion * (2* (m_CurrentSynchroFactor - 0.5f)) - m_DistanceFactor *(m_PositionToReach - m_CurrentPos).sqrMagnitude;
 		m_CurrentValue += scoreToAdd;
+		if (m_CurrentValue < 0)
+			m_CurrentValue = 0;
+		if (m_MatFader != null && !m_MatFader.IsActivated())
+		{
+			m_MatFader.m_maxFadeValue = GetCompletionFactor();
+			if (m_MatFader.m_maxFadeValue > 1)
+			{
+				m_MatFader.m_maxFadeValue = 1;
+				m_MatFader.m_FadeType = MaterialFader.E_FadeType.E_FADE_IN;
+			}
+			m_MatFader.Activate();
+		}
 		
 		if (m_CurrentValue >= m_ValueToReach)
 		{
+			m_CurrentValue = m_ValueToReach;
 			Win();
 		}
 		else
