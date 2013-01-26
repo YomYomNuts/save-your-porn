@@ -9,6 +9,12 @@ public class Const {
 	
     #endregion
 	
+	#region LEVELS
+	
+	public const int LEVEL_LOSE = 0;
+	
+	#endregion
+	
     #region ENUM
     
 	public enum ACTION_TYPE
