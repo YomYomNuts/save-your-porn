@@ -25,5 +25,12 @@ public class Const {
 		BLACK_SCREEN
     };
 	
+	public enum TYPE_ANIMATION
+	{
+		ANIMATION_NORMAL,
+		ANIMATION_RANDOM,
+		ANIMATION_MANUAL
+	};
+	
 	#endregion
 }

@@ -15,6 +15,7 @@ public class AnimatedScript : MonoBehaviour
 	//Maybe this should be a private var
 	private Vector2 offset;
 	private Vector2 size;
+	private Const.TYPE_ANIMATION typeAnimation = Const.TYPE_ANIMATION.ANIMATION_NORMAL;
 	
 	// Use this for initialization
 	void Start () {
@@ -27,16 +28,32 @@ public class AnimatedScript : MonoBehaviour
 	//Update
 	void Update ()
 	{
-		SetSpriteAnimation(colCount, rowCount, rowNumber, colNumber, totalCells, speedAnimation);
+		if (typeAnimation == Const.TYPE_ANIMATION.ANIMATION_NORMAL ||
+				typeAnimation == Const.TYPE_ANIMATION.ANIMATION_NORMAL)
+			SetSpriteAnimation();
 	}
 	
 	//SetSpriteAnimation
-	void SetSpriteAnimation(int colCount ,int rowCount ,int rowNumber ,int colNumber,int totalCells,int speedAnimation)
+	void SetSpriteAnimation(int animId = 0)
 	{
-		// Calculate index
-		int index  = (int)(Time.time * speedAnimation);
-		// Repeat when exhausting all cells
-		index = index % totalCells;
+		int index = 0;
+		if (typeAnimation == Const.TYPE_ANIMATION.ANIMATION_NORMAL)
+		{
+			// Calculate index
+			index  = (int)(Time.time * speedAnimation);
+			// Repeat when exhausting all cells
+			index = index % totalCells;
+		}
+		else if (typeAnimation == Const.TYPE_ANIMATION.ANIMATION_NORMAL)
+		{
+			// Calculate index
+			index = Random.Range(0, totalCells);
+		}
+		else if (typeAnimation == Const.TYPE_ANIMATION.ANIMATION_MANUAL)
+		{
+			// Calculate index
+			index = animId;
+		}
 		
 		// split into horizontal and vertical index
 		var uIndex = index % colCount;
