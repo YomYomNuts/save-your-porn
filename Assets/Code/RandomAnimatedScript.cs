@@ -1,12 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class AnimatedScript : MonoBehaviour
+public class RandomAnimatedScript : MonoBehaviour
 {
 	//vars for the whole sheet
-	public int colCount =  4;
-	public int rowCount =  4;
-	public int speedAnimation = 10;
+	public int colCount = 4;
+	public int rowCount = 4;
 	
 	//vars for animation
 	private int rowNumber = 0;
@@ -27,16 +26,14 @@ public class AnimatedScript : MonoBehaviour
 	//Update
 	void Update ()
 	{
-		SetSpriteAnimation(colCount, rowCount, rowNumber, colNumber, totalCells, speedAnimation);
+		SetSpriteAnimation(colCount, rowCount, rowNumber, colNumber, totalCells);
 	}
 	
 	//SetSpriteAnimation
-	void SetSpriteAnimation(int colCount ,int rowCount ,int rowNumber ,int colNumber,int totalCells,int speedAnimation)
+	void SetSpriteAnimation(int colCount ,int rowCount ,int rowNumber ,int colNumber,int totalCells)
 	{
 		// Calculate index
-		int index  = (int)(Time.time * speedAnimation);
-		// Repeat when exhausting all cells
-		index = index % totalCells;
+		int index = Random.Range(0, totalCells);
 		
 		// split into horizontal and vertical index
 		var uIndex = index % colCount;
