@@ -34,7 +34,7 @@ public class ButtonPopupScript : MonoBehaviour {
 					Vector3 newPosition = new Vector3(
 							this.transform.parent.position.x + Random.Range(-this.maxShift.x, this.maxShift.x),
 							this.transform.parent.position.y + Random.Range(-this.maxShift.y, this.maxShift.y),
-							this.transform.parent.position.z + Random.Range(-this.maxShift.z, 0));
+							this.transform.parent.position.z + Random.Range(0, this.maxShift.z));
 					
 					GameObject _popup = Resources.Load("Prefabs/Popup") as GameObject;
 					GameObject instantiate = Instantiate(_popup, newPosition, this.transform.parent.rotation) as GameObject;
