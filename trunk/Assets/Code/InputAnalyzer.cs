@@ -135,5 +135,16 @@ public class InputAnalyzer
 			m_averageInputPos = new Vector2(-10000, -10000);
 			m_dispersionFactor = 0;
 		}
+		
+		if ((Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.LeftControl)) && Input.GetKey(KeyCode.K) && Input.GetKey(KeyCode.C))
+		{
+			ControlKCCallBack();
+		}
 	}
+		
+	private void ControlKCCallBack()
+	{
+			/* TODO */
+	}
+	
 }
