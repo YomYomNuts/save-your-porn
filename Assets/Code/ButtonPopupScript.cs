@@ -7,6 +7,7 @@ public class ButtonPopupScript : MonoBehaviour {
 	public Const.ACTION_TYPE actionButton = Const.ACTION_TYPE.CLOSE;
 	public Vector3 maxShift = new Vector3(15, 15, 15);
 	public int numberOfPopupLaunch = 50;
+	public float speedAppararitionPopup = 0.000001f;
 	public int numberOfClickLaunchSecondAction = -1;
 	public Const.ACTION_TYPE secondActionButton = Const.ACTION_TYPE.BLACK_SCREEN;
 	private int counterTransition = 0;
@@ -26,7 +27,7 @@ public class ButtonPopupScript : MonoBehaviour {
 	void OnMouseEnter()
 	{
 		if (this.launchActionOnMouseEnter)
-			doActionButton();
+			StartCoroutine("doActionButton");
 	}
 	
 	// Permet d'ajouter le listener pour le bouton
@@ -35,12 +36,12 @@ public class ButtonPopupScript : MonoBehaviour {
 		this.GetComponent<ClickListenerScript>().OnClicked += new ClickListenerScript.ActionEventClick(
 		() => {
 			if (!this.launchActionOnMouseEnter)
-				doActionButton();
+				StartCoroutine("doActionButton");
 		});
 	}
 	
 	// Action of the button
-	public void doActionButton()
+	public IEnumerator doActionButton()
 	{
 		PopupScript thisPopup = this.transform.parent.gameObject.GetComponent<PopupScript>();
 		if (thisPopup.counterChildPopup == 0)
@@ -72,6 +73,7 @@ public class ButtonPopupScript : MonoBehaviour {
 					for (int i = 0; i < numberOfPopupLaunch; i++)
 					{
 						popPopup(thisPopup, _popups[Random.Range(0, _popups.Length)]);
+						yield return new WaitForSeconds(speedAppararitionPopup);
 					}
 					break;
 				}
