@@ -11,6 +11,7 @@ public class StaticMassageObjective : Objective
 	public MaterialFader m_MatFader;
 	public float	m_LossFactor;
 	public float	m_DistanceFactor;
+	public float	m_SynchroFactor;
 	
 	private	float	m_CurrentValue;		
 	private bool 	m_Recording;
@@ -137,7 +138,8 @@ public class StaticMassageObjective : Objective
 		m_Recording = false;
 		
 		/* compute score for current massage and add to score */
-		float scoreToAdd = m_CurrentNbKeys * m_CurrentNbKeys * m_CurrentDispersion * (2* (m_CurrentSynchroFactor - 0.5f)) - m_DistanceFactor *(m_PositionToReach - m_CurrentPos).sqrMagnitude;
+		float synchroFactor = 1 - (2 * m_SynchroFactor * (1-m_CurrentSynchroFactor));
+		float scoreToAdd = m_CurrentNbKeys * m_CurrentNbKeys * m_CurrentDispersion * synchroFactor - m_DistanceFactor *(m_PositionToReach - m_CurrentPos).sqrMagnitude;
 		m_CurrentValue += scoreToAdd;
 		if (m_CurrentValue < 0)
 			m_CurrentValue = 0;
