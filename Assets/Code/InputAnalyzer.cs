@@ -8,6 +8,9 @@ public class InputAnalyzer
 	private int m_nbKeysPressed;
 	private float m_dispersionFactor; /* 1 : no dispersion, 0 : much dispersion */
 	
+	private static int nbLines = 4;
+	private static int nbColumns = 10;
+	
 	private static float MAX_DISPERSION_DIST = 50;
 	
 	private static InputAnalyzer m_instance;
@@ -17,6 +20,16 @@ public class InputAnalyzer
 		if (m_instance == null)
 			m_instance = new InputAnalyzer();
 		return m_instance;
+	}
+	
+	public static int GetNbColumns()
+	{
+		return nbColumns;
+	}
+	
+	public static int GetNbLines()
+	{
+		return nbLines;
 	}
 	
 	private InputAnalyzer()
