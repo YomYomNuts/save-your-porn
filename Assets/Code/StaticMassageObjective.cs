@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 /* objectif de massage statique : on doit appuyer plein de fois sur une zone donnée jusqu'à remplir une jauge */
-public class StaticMassageObjective : MonoBehaviour
+public class StaticMassageObjective : Objective
 {
 	/* user settable */
 	public Vector2 m_PositionToReach;
@@ -25,7 +25,7 @@ public class StaticMassageObjective : MonoBehaviour
 		transform.position = new Vector3(m_PositionToReach.x, -m_PositionToReach.y); // DEBUG
 	}
 	
-	void Init()
+	public override void Init()
 	{
 		if (m_Period == 0)
 		{
@@ -53,6 +53,9 @@ public class StaticMassageObjective : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if (m_CurrentValue >= m_ValueToReach)
+			return;
+		
 		UpdateTimer();
 		InputAnalyzer inputAn = InputAnalyzer.GetInstance();
 		int nbKeys = inputAn.GetNbKeysPressed();
@@ -127,7 +130,6 @@ public class StaticMassageObjective : MonoBehaviour
 		if (m_CurrentValue >= m_ValueToReach)
 		{
 			Win();
-			Init();
 		}
 		else
 		{
@@ -136,5 +138,10 @@ public class StaticMassageObjective : MonoBehaviour
 			Debug.Log("Dispersion : " + m_CurrentDispersion);
 			Debug.Log("Synchro : " + m_CurrentSynchroFactor);
 		}
+	}
+	
+	public override float GetCompletionFactor()
+	{
+		return m_CurrentValue / m_ValueToReach;
 	}
 }
