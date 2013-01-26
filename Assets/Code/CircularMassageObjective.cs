@@ -11,6 +11,7 @@ public class CircularMassageObjective : Objective
 	public bool		m_Clockwise;
 	public float 	m_Period; // in seconds
 	public float	m_ConstantLossFactor;
+	public float	m_NbKeysFactor;
 
 	private float	m_Timer;
 	private	float	m_CurrentValue = 0;		
@@ -67,7 +68,8 @@ public class CircularMassageObjective : Objective
 		float dispersion = inputAn.GetDispersion();
 		if (nbKeys > 0)
 		{
-			float scoreToAdd = nbKeys * dispersion / (1 + (m_CurrentPos - pos).sqrMagnitude) / SCORE_FACTOR;
+			float nbKeysFactor = 1 + m_NbKeysFactor * (nbKeys-1);
+			float scoreToAdd = nbKeysFactor * dispersion / (1 + (m_CurrentPos - pos).sqrMagnitude) / SCORE_FACTOR;
 			m_CurrentValue += scoreToAdd;
 		}
 		m_CurrentValue -= m_ConstantLossFactor;
