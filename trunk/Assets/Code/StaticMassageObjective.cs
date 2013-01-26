@@ -72,16 +72,12 @@ public class StaticMassageObjective : MonoBehaviour
 		
 		/* DEBUG CODE */
 		float newScale = (m_ValueToReach - m_CurrentValue) / m_ValueToReach;
-		/*if (m_TimerStarted)
+		if (m_TimerStarted)
 		{
 			float distance = m_Period - m_CurrentTimer < m_CurrentTimer ? m_Period - m_CurrentTimer : m_CurrentTimer;
-			float syncScaleFact;
-			if (distance == 0)
-				syncScaleFact = 1;
-			else
-				syncScaleFact = 1 + (m_Period*m_Period) / (4*((m_Period*m_Period)/4 - distance*distance));
+			float syncScaleFact = (m_Period) / (distance + m_Period/2);
 			newScale *= syncScaleFact;
-		}*/
+		}
 		transform.localScale = new Vector3(newScale, newScale, 1);
 	}
 	
@@ -125,7 +121,7 @@ public class StaticMassageObjective : MonoBehaviour
 		m_Recording = false;
 		
 		/* compute score for current massage and add to score */
-		float scoreToAdd = m_CurrentNbKeys * m_CurrentNbKeys * m_CurrentDispersion /** m_CurrentSynchroFactor*/ / (1 + (m_PositionToReach - m_CurrentPos).sqrMagnitude);
+		float scoreToAdd = m_CurrentNbKeys * m_CurrentNbKeys * m_CurrentDispersion * m_CurrentSynchroFactor / (1 + (m_PositionToReach - m_CurrentPos).sqrMagnitude);
 		m_CurrentValue += scoreToAdd;
 		
 		if (m_CurrentValue >= m_ValueToReach)
