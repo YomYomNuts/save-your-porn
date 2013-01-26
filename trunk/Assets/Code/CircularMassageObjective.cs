@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 /* objectif de massage circulaire : on doit suivre un point qui parcourt un cercle */
-public class CircularMassageObjective : MonoBehaviour
+public class CircularMassageObjective : Objective
 {
 	/* user settable */
 	public Vector2 	m_CenterPosition;
@@ -23,7 +23,7 @@ public class CircularMassageObjective : MonoBehaviour
 		Init();
 	}
 	
-	void Init()
+	public override void Init()
 	{
 		if (m_Period == 0)
 		{
@@ -57,6 +57,9 @@ public class CircularMassageObjective : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if (m_CurrentValue >= m_ValueToReach)
+			return;
+		
 		UpdateTargetMove();
 		InputAnalyzer inputAn = InputAnalyzer.GetInstance();
 		int nbKeys = inputAn.GetNbKeysPressed();
@@ -73,7 +76,6 @@ public class CircularMassageObjective : MonoBehaviour
 		else if (m_CurrentValue >= m_ValueToReach)
 		{
 			Win();
-			Init();
 		}
 		/* DEBUG CODE */
 		float newScale = (m_ValueToReach - m_CurrentValue) / m_ValueToReach;
@@ -84,5 +86,10 @@ public class CircularMassageObjective : MonoBehaviour
 	private void Win()
 	{
 		Debug.Log("Win !");
+	}
+	
+	public override float GetCompletionFactor()
+	{
+		return m_CurrentValue / m_ValueToReach;
 	}
 }
