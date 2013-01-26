@@ -3,12 +3,20 @@ using System.Collections;
 
 public class Const {
 	
+    #region LAYERS
+	
+    public const int LAYER_DESKTOP = 8;
+	
+    #endregion
+	
     #region ENUM
     
 	public enum ACTION_TYPE
     {
         CLOSE,
-        POP_SAME
+        POP_SAME,
+        POP_RANDOM,
+		BLACK_SCREEN
     };
 	
 	#endregion
