@@ -15,7 +15,7 @@ public class AnimatedScript : MonoBehaviour
 	//Maybe this should be a private var
 	private Vector2 offset;
 	private Vector2 size;
-	private Const.TYPE_ANIMATION typeAnimation = Const.TYPE_ANIMATION.ANIMATION_NORMAL;
+	public Const.TYPE_ANIMATION typeAnimation = Const.TYPE_ANIMATION.ANIMATION_NORMAL;
 	
 	// Use this for initialization
 	void Start () {
@@ -29,7 +29,7 @@ public class AnimatedScript : MonoBehaviour
 	void Update ()
 	{
 		if (typeAnimation == Const.TYPE_ANIMATION.ANIMATION_NORMAL ||
-				typeAnimation == Const.TYPE_ANIMATION.ANIMATION_NORMAL)
+				typeAnimation == Const.TYPE_ANIMATION.ANIMATION_RANDOM)
 			SetSpriteAnimation();
 	}
 	
@@ -44,7 +44,7 @@ public class AnimatedScript : MonoBehaviour
 			// Repeat when exhausting all cells
 			index = index % totalCells;
 		}
-		else if (typeAnimation == Const.TYPE_ANIMATION.ANIMATION_NORMAL)
+		else if (typeAnimation == Const.TYPE_ANIMATION.ANIMATION_RANDOM)
 		{
 			// Calculate index
 			index = Random.Range(0, totalCells);
