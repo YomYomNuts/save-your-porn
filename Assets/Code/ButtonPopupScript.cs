@@ -3,7 +3,6 @@ using System.Collections;
 
 public class ButtonPopupScript : MonoBehaviour {
 	//Attributs
-	public Transform transformDesktop;
 	public bool launchActionOnMouseEnter = false;
 	public Const.POPUP_ACTION_TYPE actionButton = Const.POPUP_ACTION_TYPE.CLOSE;
 	public Vector3 maxShift = new Vector3(15, 15, 15);
@@ -89,15 +88,16 @@ public class ButtonPopupScript : MonoBehaviour {
 			break;
 		case Const.POPUP_ACTION_TYPE.CRT_OFF:
 			Camera mainCamera = FindObjectOfType(typeof(Camera)) as Camera;
-			while(this.transformDesktop.localScale.y > 0)
+			Transform transformDesktop = this.transform.parent.parent;
+			while(transformDesktop.localScale.y > 0)
 			{
-				this.transformDesktop.localScale = new Vector3(this.transformDesktop.localScale.x, this.transformDesktop.localScale.y - speedChangement, this.transformDesktop.localScale.z);
+				transformDesktop.localScale = new Vector3(transformDesktop.localScale.x, transformDesktop.localScale.y - speedChangement, transformDesktop.localScale.z);
 				mainCamera.GetComponent<ScreenOverlay>().intensity += speedChangement * 6;
 				yield return new WaitForSeconds(speedAppararition);
 			}
-			while(this.transformDesktop.localScale.x > 0)
+			while(transformDesktop.localScale.x > 0)
 			{
-				this.transformDesktop.localScale = new Vector3(this.transformDesktop.localScale.x - speedChangement, this.transformDesktop.localScale.y, this.transformDesktop.localScale.z);
+				transformDesktop.localScale = new Vector3(transformDesktop.localScale.x - speedChangement, transformDesktop.localScale.y, transformDesktop.localScale.z);
 				mainCamera.GetComponent<ScreenOverlay>().intensity -= speedChangement * 10;
 				yield return new WaitForSeconds(speedAppararition);
 			}
@@ -117,6 +117,7 @@ public class ButtonPopupScript : MonoBehaviour {
 	// Pop a popup
 	public void popPopup(GameObject objectToPop)
 	{
+		Transform transformDesktop = this.transform.parent.parent;
 		float posX = this.transform.parent.position.x + Random.Range(-this.maxShift.x, this.maxShift.x);
 		float posY = this.transform.parent.position.y + Random.Range(-this.maxShift.y, this.maxShift.y);
 		float posZ = this.transform.parent.position.z + Random.Range(0, this.maxShift.z);
