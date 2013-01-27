@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CreditScript : MonoBehaviour
 {
-	GameObject movieGao;
+	public GameObject movieGao;
 	
 	public void Start()
 	{
