@@ -47,7 +47,7 @@ public class ButtonPopupScript : MonoBehaviour {
 	{
 		foreach(GameObject g in FindObjectsOfType(typeof(GameObject)))
 		{
-			if (g.layer == Const.LAYER_DESKTOP && g.renderer != null && g.transform.position.z > this.transform.position.z)
+			if (g.layer == Const.LAYER_POPUP && (g.transform.position.z > this.transform.position.z || this.gameObject.layer == Const.LAYER_DESKTOP))
 				return false;
 		}
 		return true;
@@ -82,7 +82,7 @@ public class ButtonPopupScript : MonoBehaviour {
 		case Const.POPUP_ACTION_TYPE.BLACK_SCREEN:
 			foreach(GameObject g in FindObjectsOfType(typeof(GameObject)))
 			{
-				if (g.layer == Const.LAYER_DESKTOP && g.renderer != null)
+				if ((g.layer == Const.LAYER_DESKTOP || g.layer == Const.LAYER_POPUP) && g.renderer != null)
 					g.renderer.enabled = false;
 			}
 			break;

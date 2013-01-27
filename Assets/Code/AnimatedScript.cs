@@ -18,6 +18,7 @@ public class AnimatedScript : MonoBehaviour
 	private Vector2 size;
 	private float timer;
 	public Const.TYPE_ANIMATION typeAnimation = Const.TYPE_ANIMATION.ANIMATION_NORMAL;
+	private int animId = 0;
 	
 	// Use this for initialization
 	void Start () {
@@ -37,13 +38,17 @@ public class AnimatedScript : MonoBehaviour
 	//Update
 	void Update ()
 	{
-		if (typeAnimation == Const.TYPE_ANIMATION.ANIMATION_NORMAL ||
-				typeAnimation == Const.TYPE_ANIMATION.ANIMATION_RANDOM)
-			SetSpriteAnimation();
+		SetSpriteAnimation();
+	}
+	
+	//Update Manual
+	public void updateManual()
+	{
+		animId++;
 	}
 	
 	//SetSpriteAnimation
-	void SetSpriteAnimation(int animId = 0)
+	void SetSpriteAnimation()
 	{
 		int index = 0;
 		if (typeAnimation == Const.TYPE_ANIMATION.ANIMATION_NORMAL)
@@ -80,5 +85,14 @@ public class AnimatedScript : MonoBehaviour
 		
 		renderer.material.SetTextureOffset("_MainTex", offset);
 		renderer.material.SetTextureScale("_MainTex", size);
+	}
+	
+	public static void updateAnimation()
+	{
+		foreach(GameObject g in FindObjectsOfType(typeof(GameObject)))
+		{
+			if (g.layer == Const.LAYER_EFFECT && g.GetComponent<AnimatedScript>())
+				g.GetComponent<AnimatedScript>().updateManual();
+		}
 	}
 }

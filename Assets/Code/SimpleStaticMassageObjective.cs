@@ -92,7 +92,6 @@ public class SimpleStaticMassageObjective : Objective
 		if (m_CurrentValue >= m_ValueToReach)
 		{
 			m_CurrentValue = m_ValueToReach;
-			this.enabled = false;
 			Win();
 		}
 	}

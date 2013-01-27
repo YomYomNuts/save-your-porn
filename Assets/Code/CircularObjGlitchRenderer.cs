@@ -45,10 +45,6 @@ public class CircularObjGlitchRenderer : MonoBehaviour
 		
 		decalPos.x = -width / 2;
 		decalPos.y = -height / 2;
-		
-		if (m_Objective)
-			Debug.LogError("No Objective set for objective glitch renderer !");
-		
 	}
 	
 	// Update is called once per frame
