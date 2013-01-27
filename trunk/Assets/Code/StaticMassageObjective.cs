@@ -13,6 +13,9 @@ public class StaticMassageObjective : Objective
 	public float	m_DistanceFactor;
 	public float	m_DistanceMax = 4;
 	public float	m_SynchroFactor;
+	public BlipManager	m_BlipManager;
+	public float	m_BlipMaxDistance = 1.5f;
+	public float	m_noBipMinScore = 5;
 	
 	private	float	m_CurrentValue;
 	private bool 	m_Recording;
@@ -68,6 +71,9 @@ public class StaticMassageObjective : Objective
 		m_CurrentValue -= m_LossFactor;
 		if (m_CurrentValue < 0)
 			m_CurrentValue = 0;
+		
+		if (m_CurrentValue < m_noBipMinScore && m_BlipManager)
+			m_BlipManager.PlayBiiip();
 			
 		InputAnalyzer inputAn = InputAnalyzer.GetInstance();
 		int nbKeys = inputAn.GetNbKeysPressed();
@@ -106,14 +112,17 @@ public class StaticMassageObjective : Objective
 		}
 		else
 		{
-			float distance = Mathf.Abs(m_Period - m_CurrentTimer);
-			if (distance > m_DistanceMax)
+			float syncDistance = Mathf.Abs(m_Period - m_CurrentTimer);
+			float distance = (position - m_PositionToReach).sqrMagnitude;
+			if (distance < m_BlipMaxDistance && m_BlipManager)
+				m_BlipManager.PlayBip();			
+			if (syncDistance > m_DistanceMax)
 				m_CurrentSynchroFactor = 1;
 			else
 			{
-				distance *= 10; //en dixièmes de secondes;
-				Debug.Log("Distance : " + distance);
-				m_CurrentSynchroFactor = 1 / (1 + distance*distance);
+				syncDistance *= 10; //en dixièmes de secondes;
+				Debug.Log("sync Distance : " + syncDistance);
+				m_CurrentSynchroFactor = 1 / (1 + syncDistance*syncDistance);
 			}
 			
 		}

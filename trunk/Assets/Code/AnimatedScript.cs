@@ -7,6 +7,7 @@ public class AnimatedScript : MonoBehaviour
 	public int colCount =  4;
 	public int rowCount =  4;
 	public int speedAnimation = 10;
+	public bool deactivateOnEnd = false;
 	
 	//vars for animation
 	private int rowNumber = 0;
@@ -15,14 +16,22 @@ public class AnimatedScript : MonoBehaviour
 	//Maybe this should be a private var
 	private Vector2 offset;
 	private Vector2 size;
+	private float timer;
 	public Const.TYPE_ANIMATION typeAnimation = Const.TYPE_ANIMATION.ANIMATION_NORMAL;
 	
 	// Use this for initialization
 	void Start () {
 		this.totalCells = this.colCount * this.rowCount;
 		
+		Reset();
+		
 		// Size of every cell
 		size = new Vector2(1.0f / colCount, 1.0f / rowCount);
+	}
+	
+	public void Reset()
+	{
+		timer = 0;
 	}
 	
 	//Update
@@ -40,9 +49,13 @@ public class AnimatedScript : MonoBehaviour
 		if (typeAnimation == Const.TYPE_ANIMATION.ANIMATION_NORMAL)
 		{
 			// Calculate index
-			index  = (int)(Time.time * speedAnimation);
+			timer += Time.deltaTime * speedAnimation;
+			index  = (int)(timer);
 			// Repeat when exhausting all cells
-			index = index % totalCells;
+			if (deactivateOnEnd && index >= totalCells)
+				gameObject.SetActive(false);
+			else
+				index = index % totalCells;
 		}
 		else if (typeAnimation == Const.TYPE_ANIMATION.ANIMATION_RANDOM)
 		{
