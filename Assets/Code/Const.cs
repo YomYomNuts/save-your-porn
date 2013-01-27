@@ -16,7 +16,9 @@ public class Const {
 		NOTHING,
         LEVEL_LOSE,
         LEVEL_INTRO,
-        LEVEL_FIRSTREANIMATE
+        LEVEL_FIRSTREANIMATE,
+		LEVEL_POPUP,
+		LEVEL_BSOD
     };
     
 	public enum END_ACTION_TYPE
