@@ -100,4 +100,9 @@ public class CircularMassageObjective : Objective
 	{
 		return m_CurrentValue / m_ValueToReach;
 	}
+	
+	public Vector2 GetTargetPos()
+	{
+		return m_CurrentPos;
+	}
 }
