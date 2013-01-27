@@ -33,43 +33,52 @@ public class ProgressBarScript : MonoBehaviour {
 			themats2[0].mainTexture = progressBarFull;
 		}
 		
-		textures = Resources.LoadAll("Data/file_deleted");
-		counterTextures = 0;
-		picture.renderer.materials[0].mainTexture = textures[counterTextures] as Texture2D;
-		textFile.GetComponent<TextMesh>().text = (textures[counterTextures] as Texture2D).name;
+		if (picture != null && textFile != null)
+		{
+			textures = Resources.LoadAll("Data/file_deleted");
+			counterTextures = 0;
+			picture.renderer.materials[0].mainTexture = textures[counterTextures] as Texture2D;
+			textFile.GetComponent<TextMesh>().text = (textures[counterTextures] as Texture2D).name;
+		}
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		if(showprogresstest)
-			percent += speed;
-		if(percent > 1)
+		if (barEmpty.gameObject.activeSelf && barFull.gameObject.activeSelf)
 		{
-			counterTextures++;
-			if (textures.Length > counterTextures)
+			if(showprogresstest)
+				percent += speed;
+			if(percent > 1)
 			{
-				percent = 0;
-				picture.renderer.materials[0].mainTexture = textures[counterTextures] as Texture2D;
-				textFile.GetComponent<TextMesh>().text = (textures[counterTextures] as Texture2D).name;
+				counterTextures++;
+				if (textures != null && textures.Length > counterTextures && picture != null && textFile != null)
+				{
+					percent = 0;
+					picture.renderer.materials[0].mainTexture = textures[counterTextures] as Texture2D;
+					textFile.GetComponent<TextMesh>().text = (textures[counterTextures] as Texture2D).name;
+				}
+				else
+				{
+					finish = true;
+					if (picture != null && textFile != null)
+					{
+						picture.renderer.materials[0].mainTexture = null;
+						textFile.GetComponent<TextMesh>().text = "Done.";
+					}
+					timer += Time.deltaTime;
+					if (timer >= timerFinish)
+						Application.LoadLevel((int)Const.LEVELS.LEVEL_LOSE - 1);
+				}
 			}
-			else
+			if (!finish)
 			{
-				finish = true;
-				picture.renderer.materials[0].mainTexture = null;
-				textFile.GetComponent<TextMesh>().text = "Done.";
-				timer += Time.deltaTime;
-				if (timer >= timerFinish)
-					Application.LoadLevel(Const.LEVEL_LOSE);
+				if(percent < 0)
+					percent = 0;
+				
+				barFull.transform.localScale = new Vector3(percent, barFull.transform.localScale.y, barFull.transform.localScale.z);
+				barFull.transform.localPosition = new Vector3((0.3f * percent) - 0.3f, barFull.transform.localPosition.y, barFull.transform.localPosition.z);
 			}
-		}
-		if (!finish)
-		{
-			if(percent < 0)
-				percent = 0;
-			
-			barFull.transform.localScale = new Vector3(percent, barFull.transform.localScale.y, barFull.transform.localScale.z);
-			barFull.transform.localPosition = new Vector3((0.3f * percent) - 0.3f, barFull.transform.localPosition.y, barFull.transform.localPosition.z);
 		}
 	}
 }

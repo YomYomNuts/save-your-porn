@@ -29,25 +29,31 @@ public class MicHandle : MonoBehaviour {
 	// Spectrum
 	private float[] spectrum;
 	
-	public void Start ()
+	public IEnumerator Start ()
 	{
-		samples = new float[sampleCount];
-		spectrum = new float[sampleCount];
-		
-		// This starts the mic, for lengthSec seconds, recording at frequency hz. I am unsure of how to avoid this hack.
-		if (device == null)
-			device = Microphone.devices[0];
-		audio = this.GetComponent<AudioSource>();
-		audio.clip = Microphone.Start(MicHandle.device, loop, lengthSec, AudioSettings.outputSampleRate);
-		while (!(Microphone.GetPosition(device) > 0))
+	    // Request permission to use both webcam and microphone
+		yield return Application.RequestUserAuthorization(UserAuthorization.Microphone);
+	
+	    if (Application.HasUserAuthorization(UserAuthorization.Microphone))
 		{
+			samples = new float[sampleCount];
+			spectrum = new float[sampleCount];
+			
+			// This starts the mic, for lengthSec seconds, recording at frequency hz. I am unsure of how to avoid this hack.
+			if (device == null)
+				device = Microphone.devices[0];
+			audio = this.GetComponent<AudioSource>();
+			audio.clip = Microphone.Start(MicHandle.device, loop, lengthSec, AudioSettings.outputSampleRate);
+			while (!(Microphone.GetPosition(device) > 0))
+			{
+			}
+			audio.Play();
 		}
-		audio.Play();
 	}
 	
 	public void Update ()
 	{
-		if (audio.isPlaying)
+		if (audio != null && audio.isPlaying)
 		{
 			// Le big cheese doing its thing.
 			AnalyzeSound();
