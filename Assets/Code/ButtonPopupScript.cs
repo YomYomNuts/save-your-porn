@@ -12,6 +12,9 @@ public class ButtonPopupScript : MonoBehaviour {
 	public int numberOfClickLaunchSecondAction = -1;
 	public Const.POPUP_ACTION_TYPE secondActionButton = Const.POPUP_ACTION_TYPE.BLACK_SCREEN;
 	public Const.LEVELS loadLevelAtTheEnd;
+	
+	public AudioSource	crtOffSource;
+	
 	private int counterTransition = 0;
 
 	// Use this for initialization
@@ -89,6 +92,10 @@ public class ButtonPopupScript : MonoBehaviour {
 		case Const.POPUP_ACTION_TYPE.CRT_OFF:
 			Camera mainCamera = FindObjectOfType(typeof(Camera)) as Camera;
 			Transform transformDesktop = this.transform.parent.parent;
+			if (crtOffSource)
+			{
+				crtOffSource.Play();
+			}
 			while(transformDesktop.localScale.y > 0)
 			{
 				transformDesktop.localScale = new Vector3(transformDesktop.localScale.x, transformDesktop.localScale.y - speedChangement, transformDesktop.localScale.z);
