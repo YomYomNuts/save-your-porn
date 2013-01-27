@@ -12,7 +12,8 @@ public class ButtonPopupScript : MonoBehaviour {
 	public int numberOfClickLaunchSecondAction = -1;
 	public Const.POPUP_ACTION_TYPE secondActionButton = Const.POPUP_ACTION_TYPE.BLACK_SCREEN;
 	public Const.LEVELS loadLevelAtTheEnd;
-	
+	public bool saveTheButtonClick;
+	public Const.LEVELS levelToSave;
 	public AudioSource	crtOffSource;
 	
 	private int counterTransition = 0;
@@ -111,6 +112,8 @@ public class ButtonPopupScript : MonoBehaviour {
 			break;
 		}
 		
+		if (saveTheButtonClick)
+			PlayerPrefs.SetInt("choice", (int)levelToSave - 1);
 		// On joue le son associé
 		if(this.audio != null && this.audio.clip != null) {
 			//AudioSource.PlayClipAtPoint(this.audio.clip, this.transform.position);
