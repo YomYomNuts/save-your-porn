@@ -8,12 +8,15 @@ public class GlitchRenderer : MonoBehaviour
 	public float m_RandomPosRange;
 	public float m_RandomSizeRange;
 	public float m_RefreshPeriod;
+	public AudioClip[] m_Clips;
+	public AudioSource m_Source;
 	
 	private Vector3	m_InitialScale;
 	private Vector2 decalPos;
 	private Vector2 factorPos;
 	private float m_RefreshTimer;
 	private int m_NbSkins = 5;
+	private bool m_Recording;
 	
 	// Use this for initialization
 	void Start()
@@ -27,6 +30,7 @@ public class GlitchRenderer : MonoBehaviour
 			m_InitialScale = new Vector3(gao.transform.localScale.x, gao.transform.localScale.y, gao.transform.localScale.z);
 		}
 		m_RefreshTimer = 0;
+		m_Recording = false;
 		
 		float height = Camera.mainCamera.orthographicSize;
 		float width = height * 16 / 9;
@@ -48,6 +52,15 @@ public class GlitchRenderer : MonoBehaviour
 			InputAnalyzer inputAn = InputAnalyzer.GetInstance();
 			if (inputAn.GetNbKeysPressed() > 0)
 			{
+				if (!m_Recording)
+				{
+					m_Recording = true;
+					if (m_Source != null && m_Clips != null && m_Clips.Length > 0)
+					{
+						m_Source.clip = m_Clips[Random.Range(0, m_Clips.Length)];
+						m_Source.Play();
+					}
+				}
 				int nbGlitchesToRender = Random.Range(0, m_NbGlitches);
 				Vector2 inputPos = inputAn.GetInputPos();
 				for (int i= 0; i < m_NbGlitches; ++i)
@@ -76,6 +89,7 @@ public class GlitchRenderer : MonoBehaviour
 				{
 					gao.SetActive(false);
 				}
+				m_Recording = false;
 			}
 		}
 	}
