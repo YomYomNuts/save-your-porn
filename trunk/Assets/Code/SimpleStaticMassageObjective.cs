@@ -13,7 +13,7 @@ public class SimpleStaticMassageObjective : Objective
 	public float	m_DistanceFactor;
 	public float	m_DistanceMax = 4;
 	public float	m_SynchroFactor;
-	public float	m_ChromaticPressedValue = -18;
+	public float	m_ChromaticPressedValue = -50;
 	public float	m_ChromaticReleasedValue = 0;
 	
 	private	float	m_CurrentValue;
