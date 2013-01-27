@@ -13,6 +13,8 @@ public class SimpleStaticMassageObjective : Objective
 	public float	m_DistanceFactor;
 	public float	m_DistanceMax = 4;
 	public float	m_SynchroFactor;
+	public float	m_ChromaticPressedValue = -18;
+	public float	m_ChromaticReleasedValue = 0;
 	
 	private	float	m_CurrentValue;
 	private bool 	m_Recording;
@@ -79,6 +81,9 @@ public class SimpleStaticMassageObjective : Objective
 	private void StartRecord(Vector2 position, int nbKeys, float dispersion)
 	{
 		m_Recording = true;
+		Vignetting vi = Camera.mainCamera.GetComponent<Vignetting>();
+		if (vi)
+			vi.chromaticAberration = m_ChromaticPressedValue;
 	}
 	
 	private void UpdateRecord(Vector2 position, int nbKeys, float dispersion)
@@ -88,6 +93,9 @@ public class SimpleStaticMassageObjective : Objective
 	private void EndRecord()
 	{
 		m_Recording = false;
+		Vignetting vi = Camera.mainCamera.GetComponent<Vignetting>();
+		if (vi)
+			vi.chromaticAberration = m_ChromaticReleasedValue;
 		++m_CurrentValue;
 		if (m_CurrentValue >= m_ValueToReach)
 		{
