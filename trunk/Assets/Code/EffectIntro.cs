@@ -8,6 +8,7 @@ public class EffectIntro : MonoBehaviour {
 	public float timerAppearWindows = 2f;
 	
 	private float timer;
+	private bool finish;
 	private bool done;
 
 	// Use this for initialization
@@ -20,11 +21,15 @@ public class EffectIntro : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		timer += Time.deltaTime;
-		if (timer >= timerAppearWindows && !done)
+		if (timer >= timerAppearWindows && !finish && !done)
 		{
+			if (window_porn)
+				window_porn.SetActive(true);
+			if (window_work)
+				window_work.SetActive(true);
+			finish = true;
 			done = true;
-			window_porn.SetActive(true);
-			window_work.SetActive(true);
+			
 			Camera.mainCamera.GetComponent<AudioSource>().Play();
 		}
 	}
