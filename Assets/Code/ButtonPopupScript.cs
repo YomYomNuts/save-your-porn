@@ -5,13 +5,13 @@ public class ButtonPopupScript : MonoBehaviour {
 	//Attributs
 	public Transform transformDesktop;
 	public bool launchActionOnMouseEnter = false;
-	public Const.ACTION_TYPE actionButton = Const.ACTION_TYPE.CLOSE;
+	public Const.POPUP_ACTION_TYPE actionButton = Const.POPUP_ACTION_TYPE.CLOSE;
 	public Vector3 maxShift = new Vector3(15, 15, 15);
 	public int numberOfPopupLaunch = 50;
 	public float speedAppararition = 0.000001f;
 	public float speedChangement = 0.01f;
 	public int numberOfClickLaunchSecondAction = -1;
-	public Const.ACTION_TYPE secondActionButton = Const.ACTION_TYPE.BLACK_SCREEN;
+	public Const.POPUP_ACTION_TYPE secondActionButton = Const.POPUP_ACTION_TYPE.BLACK_SCREEN;
 	public Const.LEVELS loadLevelAtTheEnd;
 	private int counterTransition = 0;
 
@@ -57,26 +57,21 @@ public class ButtonPopupScript : MonoBehaviour {
 	// Action of the button
 	public IEnumerator doActionButton()
 	{
-		Const.ACTION_TYPE currentAction = this.actionButton;
+		Const.POPUP_ACTION_TYPE currentAction = this.actionButton;
 		if (this.counterTransition == this.numberOfClickLaunchSecondAction)
 			currentAction = this.secondActionButton;
 		
 		switch(currentAction)
 		{
-		case Const.ACTION_TYPE.CLOSE:
-		{
+		case Const.POPUP_ACTION_TYPE.CLOSE:
 			Destroy(this.transform.parent.gameObject);
 			break;
-		}
-		case Const.ACTION_TYPE.POP_SAME:
-		{
+		case Const.POPUP_ACTION_TYPE.POP_SAME:
 			string namePrefab = this.transform.parent.gameObject.name.Replace("(Clone)", "");
 			GameObject _popup = Resources.Load("Prefabs/Popups/" + namePrefab) as GameObject;
 			popPopup(_popup);
 			break;
-		}
-		case Const.ACTION_TYPE.POP_RANDOM:
-		{
+		case Const.POPUP_ACTION_TYPE.POP_RANDOM:
 			Object[] _popups = Resources.LoadAll("Prefabs/Popups");
 			
 			for (int i = 0; i < numberOfPopupLaunch; i++)
@@ -85,18 +80,14 @@ public class ButtonPopupScript : MonoBehaviour {
 				yield return new WaitForSeconds(speedAppararition);
 			}
 			break;
-		}
-		case Const.ACTION_TYPE.BLACK_SCREEN:
-		{
+		case Const.POPUP_ACTION_TYPE.BLACK_SCREEN:
 			foreach(GameObject g in FindObjectsOfType(typeof(GameObject)))
 			{
 				if (g.layer == Const.LAYER_DESKTOP && g.renderer != null)
 					g.renderer.enabled = false;
 			}
 			break;
-		}
-		case Const.ACTION_TYPE.CRT_OFF:
-		{
+		case Const.POPUP_ACTION_TYPE.CRT_OFF:
 			Camera mainCamera = FindObjectOfType(typeof(Camera)) as Camera;
 			while(this.transformDesktop.localScale.y > 0)
 			{
@@ -111,7 +102,6 @@ public class ButtonPopupScript : MonoBehaviour {
 				yield return new WaitForSeconds(speedAppararition);
 			}
 			break;
-		}
 		}
 		
 		// On joue le son associé

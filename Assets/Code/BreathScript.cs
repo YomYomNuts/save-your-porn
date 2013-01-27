@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class BreathScript : MonoBehaviour {
+public class BreathScript : Objective {
 	//Attributs
 	public int numberOfInsufflation = 2;
 	public float timeOfInsufflationInSeconds = 1f;
@@ -18,6 +18,10 @@ public class BreathScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (counterInsufflation >= numberOfInsufflation)
+			return;
+		
+		updateFunction();
 		if (this.gameObject.GetComponent<MicHandle>().doInsufflation() && counterInsufflation < numberOfInsufflation)
 		{
 			time += Time.deltaTime;
@@ -35,7 +39,8 @@ public class BreathScript : MonoBehaviour {
 			pause = true;
 			time = 0;
 		}
-		else if (counterInsufflation >= numberOfInsufflation)
-			Debug.Log("Yatta");
+		if (counterInsufflation >= numberOfInsufflation)
+			Win();
+			//Debug.Log("YATTTTAAAAAAAA");
 	}
 }

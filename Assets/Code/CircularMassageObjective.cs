@@ -61,6 +61,7 @@ public class CircularMassageObjective : Objective
 		if (m_CurrentValue >= m_ValueToReach)
 			return;
 		
+		updateFunction();
 		UpdateTargetMove();
 		InputAnalyzer inputAn = InputAnalyzer.GetInstance();
 		int nbKeys = inputAn.GetNbKeysPressed();
@@ -83,11 +84,6 @@ public class CircularMassageObjective : Objective
 		float newScale = (m_ValueToReach - m_CurrentValue) / m_ValueToReach;
 		transform.localScale = new Vector3(newScale, newScale, 1);
 		transform.position = new Vector3(m_CurrentPos.x, -m_CurrentPos.y);
-	}
-	
-	private void Win()
-	{
-		Debug.Log("Win !");
 	}
 	
 	public override float GetCompletionFactor()

@@ -19,7 +19,15 @@ public class Const {
         LEVEL_FIRSTREANIMATE
     };
     
-	public enum ACTION_TYPE
+	public enum END_ACTION_TYPE
+    {
+        LOAD_LEVEL,
+        DO_COMPRESSIONS,
+        DO_INSUFFLATIONS,
+		DO_MASSAGE
+    };
+    
+	public enum POPUP_ACTION_TYPE
     {
         CLOSE,
         POP_SAME,

@@ -65,11 +65,12 @@ public class StaticMassageObjective : Objective
 		if (m_CurrentValue >= m_ValueToReach)
 			return;
 		
+		updateFunction();
 		UpdateTimer();
 		
 		m_CurrentValue -= m_LossFactor;
 		if (m_CurrentValue < 0)
-			m_CurrentValue =0;
+			m_CurrentValue = 0;
 			
 		InputAnalyzer inputAn = InputAnalyzer.GetInstance();
 		int nbKeys = inputAn.GetNbKeysPressed();
@@ -126,11 +127,6 @@ public class StaticMassageObjective : Objective
 			m_CurrentPos = position;
 			m_CurrentDispersion = dispersion;
 		}
-	}
-	
-	private void Win()
-	{
-		Debug.Log("Win !");
 	}
 	
 	private void EndRecord()
