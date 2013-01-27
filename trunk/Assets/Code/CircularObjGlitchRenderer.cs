@@ -47,9 +47,23 @@ public class CircularObjGlitchRenderer : MonoBehaviour
 		decalPos.y = -height / 2;
 	}
 	
+	private void HideGlitches()
+	{
+		for (int i= 0; i < m_NbGlitches; ++i)
+		{
+			GameObject gao = glitches[i] as GameObject;
+			gao.SetActive(false);
+		}
+	}
+	
 	// Update is called once per frame
 	void Update()
 	{
+		if (!m_Objective.gameObject.activeInHierarchy || !m_Objective.enabled)
+		{
+			HideGlitches();
+			return;
+		}
 		m_Timer += Time.deltaTime;
 		if (m_Timer >= 0 && m_Timer < m_HideDuration)
 		{
