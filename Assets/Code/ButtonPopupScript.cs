@@ -75,11 +75,12 @@ public class ButtonPopupScript : MonoBehaviour {
 			popPopup(_popup);
 			break;
 		case Const.POPUP_ACTION_TYPE.POP_RANDOM:
-			Object[] _popups = Resources.LoadAll("Prefabs/Popups");
+			Object[] _popups = Resources.LoadAll("Prefabs/Popups", typeof(GameObject));
 			
 			for (int i = 0; i < numberOfPopupLaunch; i++)
 			{
-				popPopup((_popups[Random.Range(0, _popups.Length - 1)] as GameObject));
+				int indice = Random.Range(0, _popups.Length - 1);
+				popPopup((_popups[indice] as GameObject));
 				yield return new WaitForSeconds(speedAppararition);
 			}
 			break;
@@ -128,9 +129,17 @@ public class ButtonPopupScript : MonoBehaviour {
 	public void popPopup(GameObject objectToPop)
 	{
 		Transform transformDesktop = this.transform.parent.parent;
-		float posX = this.transform.parent.position.x + Random.Range(-this.maxShift.x, this.maxShift.x);
-		float posY = this.transform.parent.position.y + Random.Range(-this.maxShift.y, this.maxShift.y);
-		float posZ = this.transform.parent.position.z + Random.Range(0, this.maxShift.z);
+		Vector3 positionClosest = new Vector3(-10000, -10000, -10000);
+		
+		foreach(GameObject g in FindObjectsOfType(typeof(GameObject)))
+		{
+			if ((g.layer == Const.LAYER_POPUP || g.layer == Const.LAYER_DESKTOP) && g.transform.position.z > positionClosest.z)
+				positionClosest = g.transform.position;
+		}
+		
+		float posX = positionClosest.x + Random.Range(-this.maxShift.x, this.maxShift.x);
+		float posY = positionClosest.y + Random.Range(-this.maxShift.y, this.maxShift.y);
+		float posZ = positionClosest.z + Random.Range(0, this.maxShift.z);
 		
 		/*if (posX + objectToPop.transform.localScale.x / 2 >= transformDesktop.position.x + transformDesktop.localScale.x / 2)
 			posX = transformDesktop.position.x + transformDesktop.localScale.x;

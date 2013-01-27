@@ -24,7 +24,8 @@ public class Const {
 		LEVEL_CHOICE,
 		LEVEL_WIN,
 		LEVEL_ENDPORN,
-		LEVEL_ENDWORK
+		LEVEL_ENDWORK,
+		LEVEL_GENERIQUE
     };
     
 	public enum END_ACTION_TYPE
