@@ -137,8 +137,8 @@ public class ButtonPopupScript : MonoBehaviour {
 				positionClosest = g.transform.position;
 		}
 		
-		float posX = positionClosest.x + Random.Range(-this.maxShift.x, this.maxShift.x);
-		float posY = positionClosest.y + Random.Range(-this.maxShift.y, this.maxShift.y);
+		float posX = Random.Range(-this.maxShift.x, this.maxShift.x);
+		float posY = Random.Range(-this.maxShift.y, this.maxShift.y);
 		float posZ = positionClosest.z + Random.Range(0, this.maxShift.z);
 		
 		/*if (posX + objectToPop.transform.localScale.x / 2 >= transformDesktop.position.x + transformDesktop.localScale.x / 2)
