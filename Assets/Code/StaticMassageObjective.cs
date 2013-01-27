@@ -11,9 +11,10 @@ public class StaticMassageObjective : Objective
 	public MaterialFader m_MatFader;
 	public float	m_LossFactor;
 	public float	m_DistanceFactor;
+	public float	m_DistanceMax = 4;
 	public float	m_SynchroFactor;
 	
-	private	float	m_CurrentValue;		
+	private	float	m_CurrentValue;
 	private bool 	m_Recording;
 	private Vector2 m_CurrentPos;
 	private int		m_CurrentNbKeys;
@@ -52,10 +53,6 @@ public class StaticMassageObjective : Objective
 		if (m_TimerStarted)
 		{
 			m_CurrentTimer += Time.deltaTime;
-			while (m_CurrentTimer > m_Period)
-			{
-				m_CurrentTimer -= m_Period;
-			}
 		}
 	}
 	
@@ -92,9 +89,10 @@ public class StaticMassageObjective : Objective
 		float newScale = (m_ValueToReach - m_CurrentValue) / m_ValueToReach;
 		if (m_TimerStarted)
 		{
-			float distance = m_Period - m_CurrentTimer < m_CurrentTimer ? m_Period - m_CurrentTimer : m_CurrentTimer;
-			float syncScaleFact = (m_Period) / (distance + m_Period/2);
-			newScale *= syncScaleFact;
+			float distance = (m_Period - m_CurrentTimer) / m_Period;
+			if (distance < 0)
+				distance = 0;
+			newScale *= distance;
 		}
 		transform.localScale = new Vector3(newScale, newScale, 1);
 	}
@@ -108,15 +106,22 @@ public class StaticMassageObjective : Objective
 		}
 		else
 		{
-			float distance = m_Period - m_CurrentTimer < m_CurrentTimer ? m_Period - m_CurrentTimer : m_CurrentTimer;
-			distance *= 10; //en dixièmes de secondes;
-			Debug.Log("Distance : " + distance);
-			m_CurrentSynchroFactor = 1 / (1 + distance*distance);
+			float distance = Mathf.Abs(m_Period - m_CurrentTimer);
+			if (distance > m_DistanceMax)
+				m_CurrentSynchroFactor = 1;
+			else
+			{
+				distance *= 10; //en dixièmes de secondes;
+				Debug.Log("Distance : " + distance);
+				m_CurrentSynchroFactor = 1 / (1 + distance*distance);
+			}
+			
 		}
 		m_Recording = true;
 		m_CurrentNbKeys = nbKeys;
 		m_CurrentPos = position;
 		m_CurrentDispersion = dispersion;
+		m_CurrentTimer = 0;
 	}
 	
 	private void UpdateRecord(Vector2 position, int nbKeys, float dispersion)
