@@ -4,6 +4,7 @@ using System.Collections;
 public class CreditScript : MonoBehaviour
 {
 	public GameObject movieGao;
+	private float m_Timer = 0;
 	
 	public void Start()
 	{
@@ -22,8 +23,9 @@ public class CreditScript : MonoBehaviour
 	{
 		if (movieGao)
 		{
+			m_Timer += Time.deltaTime;
 			MovieTexture movTex = movieGao.renderer.material.mainTexture as MovieTexture;
-			if (movTex.isPlaying)
+			if (!movTex.isPlaying && m_Timer > 20)
 				Application.Quit();
 		}
 	}

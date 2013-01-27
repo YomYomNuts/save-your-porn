@@ -16,8 +16,8 @@ public class Const {
 	public enum LEVELS
     {
 		NOTHING,
-        LEVEL_LOSE,
         LEVEL_INTRO,
+        LEVEL_LOSE,
         LEVEL_FIRSTREANIMATE,
 		LEVEL_POPUP,
 		LEVEL_BSOD,
