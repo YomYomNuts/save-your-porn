@@ -34,7 +34,7 @@ public class MoveObjectscript : MonoBehaviour {
 		this.GetComponent<ClickListenerScript>().OnClicked += new ClickListenerScript.ActionEventClick(
 		() => {
 			if(start && timer > timeMoving)
-				Application.LoadLevel((int)levelToLoadOnClick);
+				Application.LoadLevel((int)levelToLoadOnClick - 1);
 		});
 	}
 }
