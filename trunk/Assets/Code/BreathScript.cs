@@ -21,10 +21,10 @@ public class BreathScript : MonoBehaviour {
 		if (this.gameObject.GetComponent<MicHandle>().doInsufflation() && counterInsufflation < numberOfInsufflation)
 		{
 			time += Time.deltaTime;
-			Debug.Log("Time " + time + " Insufflation " + counterInsufflation);
+			//Debug.Log("Time " + time + " Insufflation " + counterInsufflation);
 			if (time >= timeOfInsufflationInSeconds && pause)
 			{
-				Debug.Log("------------------------------Add Insufflation-------------------------------------");
+				//Debug.Log("------------------------------Add Insufflation-------------------------------------");
 				counterInsufflation++;
 				time = 0;
 				pause = false;
