@@ -40,7 +40,9 @@ public class BreathScript : Objective {
 			time = 0;
 		}
 		if (counterInsufflation >= numberOfInsufflation)
+		{
+			Debug.Log("YATTTTAAAAAAAA");
 			Win();
-			//Debug.Log("YATTTTAAAAAAAA");
+		}
 	}
 }
