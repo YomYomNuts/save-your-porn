@@ -35,13 +35,17 @@ public class Objective : MonoBehaviour {
 	
 	protected void Win()
 	{
+		AnimatedScript.updateAnimation();
+		if (this.GetType() == typeof(CircularMassageObjective))
+			this.gameObject.GetComponent<CircularObjGlitchRenderer>().enabled = false;
+		this.enabled = false;
 		switch(actionWin)
 		{
 		case Const.END_ACTION_TYPE.LOAD_LEVEL:
 			Application.LoadLevel((int)levelLoadIfWin - 1);
 			break;
 		case Const.END_ACTION_TYPE.DO_COMPRESSIONS:
-			objectTakeActionIfWin.GetComponent<StaticMassageObjective>().enabled = true;
+			objectTakeActionIfWin.GetComponent<SimpleStaticMassageObjective>().enabled = true;
 			break;
 		case Const.END_ACTION_TYPE.DO_INSUFFLATIONS:
 			objectTakeActionIfWin.GetComponent<MicHandle>().enabled = true;
@@ -49,6 +53,7 @@ public class Objective : MonoBehaviour {
 			break;
 		case Const.END_ACTION_TYPE.DO_MASSAGE:
 			objectTakeActionIfWin.GetComponent<CircularMassageObjective>().enabled = true;
+			objectTakeActionIfWin.GetComponent<CircularObjGlitchRenderer>().enabled = true;
 			break;
 		}
 	}
