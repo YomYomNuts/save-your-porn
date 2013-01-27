@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MaterialFader : MonoBehaviour {
 	
-	public Material m_Material;
+	public Renderer m_Renderer;
 	public float	m_Timer;
 	public E_FadeType	m_FadeType;
 	public float	m_minFadeValue;
@@ -23,9 +23,9 @@ public class MaterialFader : MonoBehaviour {
 	void Start () {
 		m_Activated = false;
 		m_CurrentTime = 0;
-		if (m_Material != null)
+		if (m_Renderer != null)
 		{
-			m_Material.color = new Color(m_minFadeValue, m_minFadeValue, m_minFadeValue);
+			m_Renderer.material.color = new Color(m_minFadeValue, m_minFadeValue, m_minFadeValue);
 		}
 	}
 	
@@ -85,7 +85,7 @@ public class MaterialFader : MonoBehaviour {
 					break;
 			}
 			color = new Color(colorValue, colorValue, colorValue);
-			m_Material.color = color;
+			m_Renderer.material.color = color;
 		}
 	}
 	
@@ -111,21 +111,21 @@ public class MaterialFader : MonoBehaviour {
 		
 		Debug.Log("color : " + colorValue);
 		color = new Color(colorValue, colorValue, colorValue);
-		m_Material.color = color;
+		m_Renderer.material.color = color;
 	}
 	
 	private void UpdateFadeIn()
 	{
 		float colorValue = m_minFadeValue + (m_maxFadeValue - m_minFadeValue)* m_CurrentTime / m_Timer;
 		Color color = new Color(colorValue, colorValue, colorValue);
-		m_Material.color = color;
+		m_Renderer.material.color = color;
 	}
 	
 	private void UpdateFadeOut()
 	{
 		float colorValue = m_minFadeValue + (m_maxFadeValue - m_minFadeValue)*(1 - (m_CurrentTime / m_Timer));
 		Color color = new Color(colorValue, colorValue, colorValue);
-		m_Material.color = color;
+		m_Renderer.material.color = color;
 	}
 	
 	private void UpdateFadeInOut()
@@ -136,6 +136,6 @@ public class MaterialFader : MonoBehaviour {
 		else
 			colorValue = m_minFadeValue + (m_maxFadeValue - m_minFadeValue)*(2 * m_CurrentTime / m_Timer);
 		Color color = new Color(colorValue, colorValue, colorValue);
-		m_Material.color = color;
+		m_Renderer.material.color = color;
 	}
 }
