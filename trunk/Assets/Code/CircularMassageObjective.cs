@@ -12,6 +12,8 @@ public class CircularMassageObjective : Objective
 	public float 	m_Period; // in seconds
 	public float	m_ConstantLossFactor;
 	public float	m_NbKeysFactor;
+	private Vector2 decalPos;
+	private Vector2 factorPos;
 
 	private float	m_Timer;
 	private	float	m_CurrentValue = 0;		
@@ -41,6 +43,14 @@ public class CircularMassageObjective : Objective
 		
 		m_CurrentPos.x = m_CenterPosition.x + m_Radius.x;
 		m_CurrentPos.y = m_CenterPosition.y;
+		
+		float height = Camera.mainCamera.orthographicSize;
+		float width = height * 16 / 9;
+		factorPos.x = width / InputAnalyzer.GetNbColumns();
+		factorPos.y = height / InputAnalyzer.GetNbLines();
+		
+		decalPos.x = -width / 2;
+		decalPos.y = -height / 2;
 	}
 	
 	void UpdateTargetMove()
@@ -83,7 +93,7 @@ public class CircularMassageObjective : Objective
 		/* DEBUG CODE */
 		float newScale = (m_ValueToReach - m_CurrentValue) / m_ValueToReach;
 		transform.localScale = new Vector3(newScale, newScale, 1);
-		transform.position = new Vector3(m_CurrentPos.x, -m_CurrentPos.y);
+		transform.position = new Vector3(decalPos.x + m_CurrentPos.x * factorPos.x, -(decalPos.y + m_CurrentPos.y * factorPos.y), 1f);
 	}
 	
 	public override float GetCompletionFactor()
