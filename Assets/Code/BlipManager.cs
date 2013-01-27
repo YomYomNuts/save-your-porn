@@ -35,9 +35,6 @@ public class BlipManager : MonoBehaviour {
 	{
 		if (m_Source.isPlaying)
 		{
-			if (m_Source.clip == m_Bip)
-				return;
-			else
 				m_Source.Stop();
 		}
 		m_Source.clip = m_Bip;
