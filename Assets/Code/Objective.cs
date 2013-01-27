@@ -36,8 +36,6 @@ public class Objective : MonoBehaviour {
 	protected void Win()
 	{
 		AnimatedScript.updateAnimation();
-		if (this.GetType() == typeof(CircularMassageObjective))
-			this.gameObject.GetComponent<CircularObjGlitchRenderer>().enabled = false;
 		this.enabled = false;
 		switch(actionWin)
 		{
@@ -53,7 +51,6 @@ public class Objective : MonoBehaviour {
 			break;
 		case Const.END_ACTION_TYPE.DO_MASSAGE:
 			objectTakeActionIfWin.GetComponent<CircularMassageObjective>().enabled = true;
-			objectTakeActionIfWin.GetComponent<CircularObjGlitchRenderer>().enabled = true;
 			break;
 		}
 	}
